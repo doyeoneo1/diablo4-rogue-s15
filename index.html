@@ -223,6 +223,18 @@ h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,4vw,46px);fo
 .verify-note{margin-top:10px;color:#716b63;font-size:10px;line-height:1.55}
 @media(max-width:560px){.skill-detail-grid,.socket-grid{grid-template-columns:1fr}}
 /* FULL_DETAIL_CSS_END */
+/* INGAME_ITEM_UI_START */
+.item{background:linear-gradient(180deg,#17120d 0%,#0a0a09 55%,#070707 100%);border:1px solid #6b4a28;padding:13px 13px 13px 50px;box-shadow:inset 0 1px 0 rgba(255,214,150,.06),0 8px 18px rgba(0,0,0,.28)}
+.item:before{top:13px;width:30px;height:40px;border-color:#6b5535;background:radial-gradient(circle at 50% 35%,#251b11,#080808 72%);color:#9a7b52}
+.item .slot{font-size:10px;color:#807467;letter-spacing:.08em}
+.item-rarity{margin-top:3px;font-size:10px;color:#b77a3e;letter-spacing:.1em}
+.item .name{font-family:Georgia,"Times New Roman",serif;font-size:15px;color:#d99549;line-height:1.3;margin-top:2px}
+.item.unique{border-color:#9a6a36}.item.unique .name,.item.unique .item-rarity{color:#d59a52}
+.item.mythic{border-color:#7f5797}.item.mythic .name,.item.mythic .item-rarity{color:#c58ee6}
+.affix-preview{margin-top:8px;padding-top:7px;border-top:1px solid #332c25;color:#9f968a;line-height:1.55}
+.item-detail{margin-top:9px;padding:10px 0 0;border-top:1px solid #3a3027;background:transparent;color:#c1b7aa;font-size:11px;line-height:1.7;white-space:normal}
+.item-detail br{display:block;content:"";margin-top:5px}
+/* INGAME_ITEM_UI_END */
 </style>
 </head>
 <body>
@@ -231,11 +243,10 @@ h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,4vw,46px);fo
  <div class="kicker">Diablo IV · Season 15 · Rogue Endgame Atlas</div>
  <h1>도적 엔드게임 대표 빌드 5종</h1>
  <div class="subtitle">시즌 15(패치 3.2.x) 기준의 대표 엔드게임 아키타입을 한 화면에서 비교·확인할 수 있게 만든 인터랙티브 가이드입니다. 상단 빌드를 선택하면 전체 세팅이 전환됩니다. 모바일에서 바로 확인할 수 있도록 모든 설명을 항상 펼쳐서 표시합니다. 기술별 최종 투자 포인트·세부 노드·룬어·보석/영혼 파편까지 함께 표시합니다. 장비 카드에는 고유/위상 효과와 부위별 추천 옵션 우선순위가 함께 표시됩니다.</div>
- <div class="meta"><span class="pill">자동 갱신: 2026-09-20 14:35 · 소스 1/3</span><span class="pill">검증일 2026-09-20</span><span class="pill">레벨 70 엔드게임</span><span class="pill">스킬 · 장비 · 정복자 · 문장</span><span class="pill">반응형 / 모바일 지원</span></div>
+ <div class="meta"><span class="pill">자동 갱신: 2026-09-20 14:43</span><span class="pill">검증일 2026-09-20</span><span class="pill">레벨 70 엔드게임</span><span class="pill">스킬 · 장비 · 정복자 · 문장</span><span class="pill">반응형 / 모바일 지원</span></div>
 </header>
 
 <nav class="build-tabs" id="tabs"></nav>
-<!-- DAILY_META_START --><section class="daily-meta"><div class="section-head"><h2>오늘의 도적 고점 메타</h2><small>무료 자동 집계 · 2026-09-20 14:35 KST</small></div><div class="daily-rank-grid"><div class="daily-rank-card"><div class="daily-rank-no">#1</div><div class="daily-rank-main"><b>냉기 연발 사격</b><small>상세 세팅 보유 · 자동점수 40</small><span>IcyVeins 감지</span></div></div><div class="daily-rank-card"><div class="daily-rank-no">#2</div><div class="daily-rank-main"><b>독 주입 꿰뚫는 사격</b><small>상세 세팅 보유 · 자동점수 40</small><span>IcyVeins 감지</span></div></div><div class="daily-rank-card"><div class="daily-rank-no">#3</div><div class="daily-rank-main"><b>독 주입 칼날의 춤</b><small>상세 세팅 보유 · 자동점수 40</small><span>IcyVeins 감지</span></div></div><div class="daily-rank-card"><div class="daily-rank-no">#4</div><div class="daily-rank-main"><b>탄막</b><small>신규 상위 빌드 감지 · 자동점수 40</small><span>IcyVeins 감지</span></div></div></div><div class="daily-warning"><b>신규 상위 빌드 감지:</b> 탄막 — 상세 스킬/장비는 검증 전 자동 생성하지 않습니다.</div><div class="daily-warning"><b>안전 모드:</b> 2개 이상 소스에서 기존 5개 빌드가 충분히 확인되지 않아 기존 상세 빌드 순서를 유지합니다.</div><div class="daily-error"><b>수집 실패:</b> D4Guides: HTTPError / Mobalytics: HTTPError</div><div class="daily-method">D4Guides · Mobalytics · Icy Veins 공개 페이지의 Tier / Pushing / Tower / Endgame 신호를 교차 집계합니다.</div></section><!-- DAILY_META_END -->
 <div id="app"></div>
 <div class="footer">※ 이 페이지는 Blizzard의 공식 UI 파일을 복제한 것이 아니라, 디아블로 IV의 어두운 고딕 UI 문법을 참고해 독립적으로 제작한 팬 가이드 인터페이스입니다. 라이브 서비스 특성상 핫픽스에 따라 수치·최적 세팅이 바뀔 수 있습니다.</div>
 </div>
@@ -655,6 +666,8 @@ const skillDesc = {
 "연막탄":"광역 제어/디버프 용 보조 기술."
 };
 
+function formatItemText(t){ return (t||"").replace(/\\n/g,"<br>"); }
+
 function tooltipText(name, desc){ return desc || skillDesc[name] || "빌드 내에서 해당 슬롯의 핵심 기능을 담당합니다."; }
 
 function render(b){
@@ -690,9 +703,9 @@ function render(b){
  <section class="section gear">
    <div class="section-head"><h2>부위별 장비</h2><small>한국어판 명칭 · 효과 · 추천 옵션 상시 표시</small></div>
    <div class="loadout">${b.gear.map(g=>`<div class="item ${g[2]}" data-slot="${g[0].slice(0,2)}">
-      <div class="slot">${g[0]}</div><div class="name">${g[1]}</div>
+      <div class="slot">${g[0]}</div><div class="item-rarity">${g[2]==="mythic"?"신화 고유":g[2]==="unique"?"고유":"전설"}</div><div class="name">${g[1]}</div>
       <div class="affix-preview">${(g[4]||[]).slice(0,2).join(" · ")}</div>
-      <div class="item-detail">${g[3]}</div></div>`).join("")}</div>
+      <div class="item-detail">${formatItemText(g[3])}</div></div>`).join("")}</div>
  </section>
  <section class="section notes" data-full-detail-sockets="1">
    <div class="section-head"><h2>룬어 · 보석 · 영혼 파편</h2><small>부위별 장착 기준</small></div>
