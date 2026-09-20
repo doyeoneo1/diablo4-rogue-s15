@@ -510,10 +510,44 @@ def inject_meta(page: str, block: str) -> str:
 
     return page.replace(marker, marker + "\n" + block, 1)
 
+def remove_meta_ui(page: str) -> str:
+    page = re.sub(
+        r"<!-- DAILY_META_START -->.*?<!-- DAILY_META_END -->\s*",
+        "",
+        page,
+        flags=re.S,
+    )
+    return page
+
+def install_ingame_item_ui(page: str) -> str:
+    css = '/* INGAME_ITEM_UI_START */\n.item{background:linear-gradient(180deg,#17120d 0%,#0a0a09 55%,#070707 100%);border:1px solid #6b4a28;padding:13px 13px 13px 50px;box-shadow:inset 0 1px 0 rgba(255,214,150,.06),0 8px 18px rgba(0,0,0,.28)}\n.item:before{top:13px;width:30px;height:40px;border-color:#6b5535;background:radial-gradient(circle at 50% 35%,#251b11,#080808 72%);color:#9a7b52}\n.item .slot{font-size:10px;color:#807467;letter-spacing:.08em}\n.item-rarity{margin-top:3px;font-size:10px;color:#b77a3e;letter-spacing:.1em}\n.item .name{font-family:Georgia,"Times New Roman",serif;font-size:15px;color:#d99549;line-height:1.3;margin-top:2px}\n.item.unique{border-color:#9a6a36}.item.unique .name,.item.unique .item-rarity{color:#d59a52}\n.item.mythic{border-color:#7f5797}.item.mythic .name,.item.mythic .item-rarity{color:#c58ee6}\n.affix-preview{margin-top:8px;padding-top:7px;border-top:1px solid #332c25;color:#9f968a;line-height:1.55}\n.item-detail{margin-top:9px;padding:10px 0 0;border-top:1px solid #3a3027;background:transparent;color:#c1b7aa;font-size:11px;line-height:1.7;white-space:normal}\n.item-detail br{display:block;content:"";margin-top:5px}\n/* INGAME_ITEM_UI_END */'
+
+    start = "/* INGAME_ITEM_UI_START */"
+    end = "/* INGAME_ITEM_UI_END */"
+    pat = re.compile(re.escape(start) + r".*?" + re.escape(end), re.S)
+
+    if pat.search(page):
+        page = pat.sub(css, page, count=1)
+    elif "</style>" in page:
+        page = page.replace("</style>", css + "\n</style>", 1)
+
+    helper = 'function formatItemText(t){ return (t||"").replace(/\\\\n/g,"<br>"); }'
+    if "function formatItemText(" not in page:
+        page = page.replace(
+            "function tooltipText(name, desc){",
+            helper + "\n\nfunction tooltipText(name, desc){",
+            1,
+        )
+
+    old = '<div class="slot">${g[0]}</div><div class="name">${g[1]}</div>\n      <div class="affix-preview">${(g[4]||[]).slice(0,2).join(" · ")}</div>\n      <div class="item-detail">${g[3]}</div>'
+    new = '<div class="slot">${g[0]}</div><div class="item-rarity">${g[2]==="mythic"?"신화 고유":g[2]==="unique"?"고유":"전설"}</div><div class="name">${g[1]}</div>\n      <div class="affix-preview">${(g[4]||[]).slice(0,2).join(" · ")}</div>\n      <div class="item-detail">${formatItemText(g[3])}</div>'
+    page = page.replace(old, new)
+    return page
+
 def update_badge(page: str, source_ok: int) -> str:
     now = datetime.now(KST).strftime("%Y-%m-%d %H:%M")
     page = re.sub(r'<span class="pill">자동화 테스트:.*?</span>', "", page, count=1)
-    badge = f'<span class="pill">자동 갱신: {now} · 소스 {source_ok}/3</span>'
+    badge = f'<span class="pill">자동 갱신: {now}</span>'
 
     if re.search(r'<span class="pill">자동 갱신:.*?</span>', page):
         return re.sub(r'<span class="pill">자동 갱신:.*?</span>', badge, page, count=1)
@@ -593,13 +627,13 @@ def main() -> int:
 
     page = INDEX.read_text(encoding="utf-8")
     page = apply_full_detail(page)
-    page = ensure_daily_css(page)
-    page = inject_meta(page, meta_block(rows, errors, degraded))
+    page = remove_meta_ui(page)
+    page = install_ingame_item_ui(page)
     page = update_badge(page, len(texts))
     page = inject_order(page, ordered)
     INDEX.write_text(page, encoding="utf-8")
 
-    print("[DONE] 상세 세팅 + 한국어 용어 + 룬/보석 + 일일 메타 갱신")
+    print("[DONE] 상세 세팅 + 한국어 용어 + 룬/보석 + 인게임형 장비 UI 갱신")
     print("[MODE]", "정상 순위 갱신" if enough else "안전 모드")
     return 0
 
