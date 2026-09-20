@@ -39,6 +39,6 @@ jobs:
             exit 0
           fi
 
-          git add index.html build_state.json
+          git add index.html
           git commit -m "Daily Rogue build update"
           git push
