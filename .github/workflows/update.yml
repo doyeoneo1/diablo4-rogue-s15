@@ -1,0 +1,44 @@
+name: Update Diablo 4 Rogue Builds
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 23 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Update build data
+        run: |
+          python update_builds.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "diablo-build-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          git add index.html build_state.json
+          git commit -m "Daily Rogue build update"
+          git push
